@@ -1,3 +1,17 @@
-<p>
-  product-table works!
-</p>
+<mat-table #productTable [dataSource]="this.productsDataSource" matSort>
+  <ng-container matColumnDef="productName">
+    <mat-header-cell *matHeaderCellDef mat-sort-header> Product </mat-header-cell>
+    <mat-cell *matCellDef="let entry"> {{entry.productName}} </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="cost">
+    <mat-header-cell *matHeaderCellDef mat-sort-header> Cost </mat-header-cell>
+    <mat-cell *matCellDef="let entry"> € {{entry.cost}} </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="done">
+    <mat-header-cell *matHeaderCellDef mat-sort-header> Done </mat-header-cell>
+    <mat-cell *matCellDef="let entry"> {{entry.done == 0 ? "Unfinished" : "Finished"}} </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</mat-table>

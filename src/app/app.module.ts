@@ -2,7 +2,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 
-import { MatToolbarModule } from '@angular/material';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { MatToolbarModule, MatTableModule, MatSortModule } from '@angular/material';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
@@ -21,7 +22,10 @@ import { ProductInputComponent } from './product-input/product-input.component';
     BrowserModule,
     HttpClientModule,
     // Style-Modules
-    MatToolbarModule
+    MatToolbarModule,
+    MatTableModule,
+    MatSortModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
