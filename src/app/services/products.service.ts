@@ -11,10 +11,10 @@ export class ProductsService {
   public products: Product[];
 
   // change variables according to your specific api
-  private url = 'http://localhost:2403/shopping-list/'
-  private productNameIdentifier = 'productName';
-  private costIdentifier = 'cost';
-  private doneIdentifier = 'done;'
+  public url = 'http://localhost:2403/shopping-list/'
+  public productNameIdentifier = 'productName';
+  public costIdentifier = 'cost';
+  public doneIdentifier = 'done';
 
   constructor(private http: HttpClient) { 
   }

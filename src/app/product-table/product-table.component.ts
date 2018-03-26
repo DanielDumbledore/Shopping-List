@@ -18,7 +18,7 @@ export class ProductTableComponent implements OnInit {
 
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private productService: ProductsService) {
+  constructor(public productService: ProductsService) {
     this.productService.getProducts().then((data: Product[]) => {
       this.productsDataSource = new MatTableDataSource(data);
       this.productsDataSource.sort = this.sort;

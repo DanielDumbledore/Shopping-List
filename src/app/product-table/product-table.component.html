@@ -1,15 +1,15 @@
 <mat-table #productTable [dataSource]="this.productsDataSource" matSort>
   <ng-container matColumnDef="productName">
     <mat-header-cell *matHeaderCellDef mat-sort-header> Product </mat-header-cell>
-    <mat-cell *matCellDef="let entry"> {{entry.productName}} </mat-cell>
+    <mat-cell *matCellDef="let entry"> {{entry[productService.productNameIdentifier]}} </mat-cell>
   </ng-container>
   <ng-container matColumnDef="cost">
     <mat-header-cell *matHeaderCellDef mat-sort-header> Cost </mat-header-cell>
-    <mat-cell *matCellDef="let entry"> € {{entry.cost}} </mat-cell>
+    <mat-cell *matCellDef="let entry"> € {{entry[productService.costIdentifier]}} </mat-cell>
   </ng-container>
   <ng-container matColumnDef="done">
     <mat-header-cell *matHeaderCellDef mat-sort-header> Done </mat-header-cell>
-    <mat-cell *matCellDef="let entry"> {{entry.done == 0 ? "Unfinished" : "Finished"}} </mat-cell>
+    <mat-cell *matCellDef="let entry"> <mat-checkbox disabled="disabled" checked="{{entry[productService.doneIdentifier] != 0 ? 'check' : ''}}"></mat-checkbox></mat-cell>
   </ng-container>
 
   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
