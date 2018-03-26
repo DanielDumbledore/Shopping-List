@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import { MatToolbarModule, MatTableModule, MatSortModule } from '@angular/material';
+import { MatToolbarModule, MatTableModule, MatSortModule, MatCheckboxModule } from '@angular/material';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
@@ -21,11 +21,12 @@ import { ProductInputComponent } from './product-input/product-input.component';
   imports: [
     BrowserModule,
     HttpClientModule,
+    BrowserAnimationsModule,
     // Style-Modules
     MatToolbarModule,
     MatTableModule,
     MatSortModule,
-    BrowserAnimationsModule
+    MatCheckboxModule
   ],
   providers: [],
   bootstrap: [AppComponent]
