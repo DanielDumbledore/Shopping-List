@@ -1,28 +1,23 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatTableDataSource, MatSort, MatTab} from '@angular/material';
 import { ProductsService } from '../services/products.service';
-
-import { DataSource } from '@angular/cdk/collections';
-import { Observable } from 'rxjs/Observable';
-import { Product } from '../shared/product';
+import { MatSort } from '@angular/material';
 
 @Component({
   selector: 'app-product-table',
-  providers: [ProductsService],
   templateUrl: './product-table.component.html',
   styleUrls: ['./product-table.component.css']
 })
 export class ProductTableComponent implements OnInit {
+  costSum: number = 0;
   displayedColumns = ['productName', 'cost', 'done'];
-  productsDataSource;
 
   @ViewChild(MatSort) sort: MatSort;
 
+  ngAfterViewInit() {
+    this.productService.sort = this.sort;
+  }
+
   constructor(public productService: ProductsService) {
-    this.productService.getProducts().then((data: Product[]) => {
-      this.productsDataSource = new MatTableDataSource(data);
-      this.productsDataSource.sort = this.sort;
-    });
   }
 
   ngOnInit() {
