@@ -8,6 +8,7 @@ import { MatSort } from '@angular/material';
   styleUrls: ['./product-table.component.css']
 })
 export class ProductTableComponent implements OnInit {
+  showDoneChecked: boolean;
   costSum: number = 0;
   displayedColumns = ['productName', 'cost', 'done'];
 

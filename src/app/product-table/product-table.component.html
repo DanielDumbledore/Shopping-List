@@ -1,3 +1,7 @@
+<div class="non-table-body">
+  <mat-checkbox (click)="this.productService.toggleFilter()" checked="">Show Done?</mat-checkbox>
+</div>
+
 <mat-table #productTable [dataSource]="this.productService.productsDataSource" matSort>
   <ng-container matColumnDef="productName">
     <mat-header-cell *matHeaderCellDef mat-sort-header> Product </mat-header-cell>
@@ -9,11 +13,13 @@
   </ng-container>
   <ng-container matColumnDef="done">
     <mat-header-cell *matHeaderCellDef mat-sort-header> Done </mat-header-cell>
-    <mat-cell *matCellDef="let entry"> <mat-checkbox disabled="disabled" checked="{{entry[productService.doneIdentifier] != 0 ? 'check' : ''}}"></mat-checkbox></mat-cell>
+    <mat-cell *matCellDef="let entry"><mat-checkbox checked="{{entry[productService.doneIdentifier] == 1 ? 'check' : ''}}"></mat-checkbox></mat-cell>
   </ng-container>
 
   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
   <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
 </mat-table>
 
-<p>Total cost: <strong>{{this.productService.costSum}}</strong></p>
+<div class="non-table-body">
+  <p>Total cost: <strong>{{this.productService.costSum}}</strong></p>
+</div>

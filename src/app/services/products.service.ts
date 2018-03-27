@@ -13,6 +13,8 @@ export class ProductsService {
   public productsDataSource;
   public costSum: number = 0;
 
+  public showDone: boolean = true;
+
   // change variables according to your specific api
   public url = 'http://localhost:2403/shopping-list/'
   public productNameIdentifier = 'productName';
@@ -24,9 +26,16 @@ export class ProductsService {
   constructor(private http: HttpClient) { 
     this.getProducts().then((data: Product[]) => {
       this.productsDataSource = new MatTableDataSource(data);
-      this.productsDataSource.sort = this.sort;
+      this.setDataSourceProps();
       data.map(product => { this.costSum += product.cost });
     });
+  }
+
+  setDataSourceProps() {
+    this.productsDataSource.sort = this.sort;
+    this.productsDataSource.filterPredicate =
+          (data, filter: string) => data.done == parseInt(filter);
+    this.productsDataSource.filter = this.showDone ? "" : "0";
   }
 
   getProducts(): Promise<Product[]> {
@@ -44,7 +53,8 @@ export class ProductsService {
   addProduct(newProduct: Product) {
     this.productsDataSource.data.push(newProduct);
     this.productsDataSource = new MatTableDataSource(this.productsDataSource.data);
-    this.productsDataSource.sort = this.sort;
+    this.setDataSourceProps();
+    
     this.costSum += newProduct.cost;
     this.http.post(this.url, newProduct)
       .subscribe(
@@ -55,5 +65,20 @@ export class ProductsService {
           console.log("Error occured");
         }
       );
+  }
+
+  toggleFilter() {
+    this.showDone = !this.showDone;
+    this.productsDataSource.filter = this.showDone ? "" : "0";
+  }
+
+  containsProduct(productName: string): boolean {
+    var contains: boolean = false;
+    this.productsDataSource.data.map(product => {
+      if (productName === product.productName) {
+        contains = true;
+      }
+    });
+    return contains;
   }
 }
