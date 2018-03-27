@@ -2,12 +2,17 @@
 <mat-dialog-content>
   <form [formGroup]="form">
     <mat-form-field>
-      <input matInput placeholder="Product" formControlName="productName">
+      <input matInput placeholder="Product" formControlName="productName" required>
     </mat-form-field>
     <mat-form-field>
-      <input matInput type="number" placeholder="Cost" formControlName="cost">
+      <input matInput type="number" placeholder="Cost" formControlName="cost" required>
     </mat-form-field>
   </form>
+  <div *ngIf="containsTypedProduct()">
+      <mat-hint>
+          Product already contained! (will not be saved)
+      </mat-hint>
+    </div>
 </mat-dialog-content>
 <mat-dialog-actions>
     <button class="mat-raised-button" (click)="close()">Close</button>

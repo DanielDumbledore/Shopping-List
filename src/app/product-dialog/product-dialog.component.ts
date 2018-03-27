@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { MatDialogRef } from "@angular/material";
 import { FormGroup, FormBuilder } from '@angular/forms';
+import { ProductsService } from '../services/products.service';
 
 @Component({
   selector: 'app-product-dialog',
@@ -15,11 +16,20 @@ export class ProductDialogComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    public dialogRef: MatDialogRef<ProductDialogComponent>) { 
+    public dialogRef: MatDialogRef<ProductDialogComponent>,
+    private productService: ProductsService) { 
+  }
+
+  containsTypedProduct(): boolean {
+    console.log(this.form.value.productName);
+    return this.productService.containsProduct(this.form.value.productName);
   }
 
   save() {
-    this.dialogRef.close(this.form.value);
+    if (this.form.value.productName !== "" && this.form.value.cost > 0 
+     && !this.productService.containsProduct(this.form.value.productName)) {
+      this.dialogRef.close(this.form.value);
+    }
   }
 
   close() {
