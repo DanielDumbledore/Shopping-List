@@ -1,0 +1,15 @@
+mat-form-field {
+    width: 100%;
+}
+
+@media only screen and (min-width: 992px) {
+    mat-form-field {
+        width: 48%;
+    }
+} 
+
+#add-note {
+    position: absolute;
+    bottom: 5%;
+    right: 5%;
+}

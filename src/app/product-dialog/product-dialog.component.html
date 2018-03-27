@@ -1,0 +1,15 @@
+<h2 mat-dialog-title>New Product</h2>
+<mat-dialog-content>
+  <form [formGroup]="form">
+    <mat-form-field>
+      <input matInput placeholder="Product" formControlName="productName">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput type="number" placeholder="Cost" formControlName="cost">
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button class="mat-raised-button" (click)="close()">Close</button>
+    <button class="mat-raised-button mat-primary" (click)="save()">Save</button>
+</mat-dialog-actions>
