@@ -9,10 +9,10 @@
     </mat-form-field>
   </form>
   <div *ngIf="containsTypedProduct()">
-      <mat-hint>
-          Product already contained! (will not be saved)
-      </mat-hint>
-    </div>
+    <mat-hint>
+        Product already contained! (will not be saved)
+    </mat-hint>
+  </div>
 </mat-dialog-content>
 <mat-dialog-actions>
     <button class="mat-raised-button" (click)="close()">Close</button>

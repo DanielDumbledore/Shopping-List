@@ -21,7 +21,6 @@ export class ProductDialogComponent implements OnInit {
   }
 
   containsTypedProduct(): boolean {
-    console.log(this.form.value.productName);
     return this.productService.containsProduct(this.form.value.productName);
   }
 

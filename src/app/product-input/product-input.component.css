@@ -10,6 +10,14 @@ mat-form-field {
 
 #add-note {
     position: absolute;
-    bottom: 5%;
-    right: 5%;
+    bottom: 32px;
+    right: 32px;
 }
+
+@media only screen and (min-width: 992px) {
+    #add-note {
+        position: absolute;
+        bottom: 48px;
+        right: 48px;
+    }
+} 
