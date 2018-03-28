@@ -25,12 +25,14 @@ export class ProductInputComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(
       productData => {
-        let product: Product = {
-          productName: productData.productName,
-          cost: productData.cost,
-          done: 0
-        };
-        this.productService.addProduct(product);
+        if (productData) { // save and not close was called
+          let product: Product = {
+            productName: productData.productName,
+            cost: productData.cost,
+            done: 0
+          };
+          this.productService.addProduct(product);
+        }
       }
     );    
   }
