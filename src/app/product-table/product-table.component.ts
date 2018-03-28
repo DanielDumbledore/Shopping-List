@@ -1,14 +1,17 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ProductsService } from '../services/products.service';
-import { MatSort } from '@angular/material';
+import { MatSort, MAT_CHECKBOX_CLICK_ACTION } from '@angular/material';
+import { Product } from '../shared/product';
 
 @Component({
   selector: 'app-product-table',
+  providers: [
+    {provide: MAT_CHECKBOX_CLICK_ACTION, useValue: 'noop'}
+  ],
   templateUrl: './product-table.component.html',
   styleUrls: ['./product-table.component.css']
 })
 export class ProductTableComponent implements OnInit {
-  showDoneChecked: boolean;
   costSum: number = 0;
   displayedColumns = ['productName', 'cost', 'done'];
 

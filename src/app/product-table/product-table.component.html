@@ -1,5 +1,5 @@
 <div class="non-table-body">
-  <mat-checkbox (click)="this.productService.toggleFilter()" checked="">Show Done?</mat-checkbox>
+  <mat-checkbox (click)="this.productService.toggleFilter()" checked="{{this.productService.showDone ? '' : 'check'}}">Hide Done?</mat-checkbox>
 </div>
 
 <mat-table #productTable [dataSource]="this.productService.productsDataSource" matSort>
@@ -13,7 +13,12 @@
   </ng-container>
   <ng-container matColumnDef="done">
     <mat-header-cell *matHeaderCellDef mat-sort-header> Done </mat-header-cell>
-    <mat-cell *matCellDef="let entry"><mat-checkbox checked="{{entry[productService.doneIdentifier] == 1 ? 'check' : ''}}"></mat-checkbox></mat-cell>
+    <mat-cell *matCellDef="let entry">
+      <mat-checkbox 
+        (click)="this.productService.updateDone(entry)" 
+        checked="{{entry[productService.doneIdentifier] == 1 ? 'check' : ''}}">
+      </mat-checkbox>
+    </mat-cell>
   </ng-container>
 
   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

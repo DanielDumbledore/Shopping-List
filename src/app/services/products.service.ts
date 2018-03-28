@@ -1,11 +1,10 @@
 import { Injectable, ViewChild } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
 import { MatTableDataSource, MatSort, MatTab} from '@angular/material';
 
 import { Product } from '../shared/product';
-
 
 
 @Injectable()
@@ -27,7 +26,7 @@ export class ProductsService {
     this.getProducts().then((data: Product[]) => {
       this.productsDataSource = new MatTableDataSource(data);
       this.setDataSourceProps();
-      data.map(product => { this.costSum += product.cost });
+      data.map(product => { this.costSum += product.cost });      
     });
   }
 
@@ -65,6 +64,53 @@ export class ProductsService {
           console.log("Error occured");
         }
       );
+  }
+
+  switchDone(product): number {
+    // if 0 -> 1 - 0 = 1; if 1 -> 1 - 1 = 0
+    return 1 - product.done 
+  }
+
+  putDataToServer(oldProduct) {
+    if (!oldProduct.id) {
+      this.http.get(this.url, { params: new HttpParams().set("productName", oldProduct.productName) } )
+        .subscribe(
+          res => {
+            this.http.put(this.url + res[0].id, oldProduct)
+              .subscribe(
+                res => {
+                  console.log(res);
+                },
+                err => {
+                  console.log("Error occured");
+                }
+              );
+          },
+          err => {
+            console.log("Error occured");
+          }
+        );
+    } else {
+      this.http.put(this.url + oldProduct.id, oldProduct)
+        .subscribe(
+          res => {
+            console.log(res);
+          },
+          err => {
+            console.log("Error occured");
+          }
+        );
+    }
+  }
+
+  updateDone(oldProduct) {
+    oldProduct.done = this.switchDone(oldProduct);
+    this.putDataToServer(oldProduct);
+
+    if (!this.showDone) {
+      this.productsDataSource = new MatTableDataSource(this.productsDataSource.data);
+      this.setDataSourceProps();  
+    }
   }
 
   toggleFilter() {
