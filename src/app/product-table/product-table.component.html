@@ -20,6 +20,14 @@
       </mat-checkbox>
     </mat-cell>
   </ng-container>
+  <ng-container matColumnDef="delete">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Delete </mat-header-cell>
+      <mat-cell *matCellDef="let entry">
+        <button class="accent" (click)="this.productService.deleteProduct(entry)" mat-icon-button	>
+          <mat-icon aria-label="Delete Icon">delete</mat-icon>
+        </button>
+      </mat-cell>
+  </ng-container>
 
   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
   <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>

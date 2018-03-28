@@ -30,7 +30,7 @@ export class ProductsService {
     });
   }
 
-  setDataSourceProps() {
+  setDataSourceProps(): void {
     this.productsDataSource.sort = this.sort;
     this.productsDataSource.filterPredicate =
           (data, filter: string) => data.done == parseInt(filter);
@@ -49,10 +49,9 @@ export class ProductsService {
     })
   }
 
-  addProduct(newProduct: Product) {
+  addProduct(newProduct: Product): void {
     this.productsDataSource.data.push(newProduct);
-    this.productsDataSource = new MatTableDataSource(this.productsDataSource.data);
-    this.setDataSourceProps();
+    this.updateTable();
     
     this.costSum += newProduct.cost;
     this.http.post(this.url, newProduct)
@@ -71,27 +70,30 @@ export class ProductsService {
     return 1 - product.done 
   }
 
-  putDataToServer(oldProduct) {
-    if (!oldProduct.id) {
-      this.http.get(this.url, { params: new HttpParams().set("productName", oldProduct.productName) } )
-        .subscribe(
-          res => {
-            this.http.put(this.url + res[0].id, oldProduct)
-              .subscribe(
-                res => {
-                  console.log(res);
-                },
-                err => {
-                  console.log("Error occured");
-                }
-              );
-          },
-          err => {
-            console.log("Error occured");
-          }
-        );
-    } else {
-      this.http.put(this.url + oldProduct.id, oldProduct)
+  async getIdOfProduct(product): Promise<string> {
+    return new Promise<string>((resolve, reject) => {
+      if (!product.id) {
+        this.http.get(this.url, { params: new HttpParams().set("productName", product.productName) } )
+          .subscribe(
+            res => {
+              resolve(res[0].id);
+            },
+            err => {
+              console.log("Error occured");
+            }
+          );
+      } else {
+        resolve(product.id);
+      }
+    });
+  }
+
+  deleteProduct(product): void {
+    this.costSum -= product.cost;
+    this.productsDataSource.data.splice(this.productsDataSource.data.indexOf(product), 1);
+    this.updateTable();
+    this.getIdOfProduct(product).then(id => {
+      this.http.delete(this.url + id)
         .subscribe(
           res => {
             console.log(res);
@@ -100,20 +102,35 @@ export class ProductsService {
             console.log("Error occured");
           }
         );
-    }
+    })
   }
 
-  updateDone(oldProduct) {
+  updateDone(oldProduct): void {
     oldProduct.done = this.switchDone(oldProduct);
-    this.putDataToServer(oldProduct);
+    this.getIdOfProduct(oldProduct).then(id => {
+      this.http.put(this.url + id, oldProduct)
+        .subscribe(
+          res => {
+            console.log(res);
+          },
+          err => {
+            console.log("Error occured");
+          }
+        )
+    })
+    
 
     if (!this.showDone) {
-      this.productsDataSource = new MatTableDataSource(this.productsDataSource.data);
-      this.setDataSourceProps();  
+      this.updateTable();
     }
   }
 
-  toggleFilter() {
+  updateTable(): void {
+    this.productsDataSource = new MatTableDataSource(this.productsDataSource.data);
+    this.setDataSourceProps();  
+  }
+
+  toggleFilter(): void {
     this.showDone = !this.showDone;
     this.productsDataSource.filter = this.showDone ? "" : "0";
   }
