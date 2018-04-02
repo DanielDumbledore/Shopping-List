@@ -106,7 +106,7 @@ export class ProductsService {
     let data = this.dataFromProduct(product);
 
     this.costSum -= product[this.costIdentifier];
-    this.productsDataSource.data.splice(this.productsDataSource.data.indexOf(data), 1);
+    this.productsDataSource.data.splice(this.productsDataSource.data.indexOf(product), 1);
     this.updateTable();
     this.getIdOfProduct(data).then(id => {
       this.http.delete(this.url + id)
