@@ -6,6 +6,8 @@ import { MatTableDataSource, MatSort, MatTab} from '@angular/material';
 
 import { Product } from '../shared/product';
 
+import 'rxjs/add/operator/toPromise';
+
 
 @Injectable()
 export class ProductsService {
