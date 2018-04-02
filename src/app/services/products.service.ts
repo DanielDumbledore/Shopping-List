@@ -15,10 +15,10 @@ export class ProductsService {
   public showDone: boolean = true;
 
   // change variables according to your specific api
-  public url = 'http://localhost:2403/shopping-list/'
-  public productNameIdentifier = 'productName';
-  public costIdentifier = 'cost';
-  public doneIdentifier = 'done';
+  public url = 'http://localhost:2403/einkaufsliste/'
+  public productNameIdentifier = 'produkt';
+  public costIdentifier = 'kosten';
+  public doneIdentifier = 'erledigt';
 
   public sort: MatSort;
 
@@ -26,7 +26,7 @@ export class ProductsService {
     this.getProducts().then((data: Product[]) => {
       this.productsDataSource = new MatTableDataSource(data);
       this.setDataSourceProps();
-      data.map(product => { this.costSum += product.cost });      
+      data.map(product => { this.costSum += product[this.costIdentifier] });      
     });
   }
 
@@ -50,11 +50,14 @@ export class ProductsService {
   }
 
   addProduct(newProduct: Product): void {
-    this.productsDataSource.data.push(newProduct);
-    this.updateTable();
-    
     this.costSum += newProduct.cost;
-    this.http.post(this.url, newProduct)
+
+    let data = this.dataFromProduct(newProduct);
+
+    this.productsDataSource.data.push(data);
+    this.updateTable();
+
+    this.http.post(this.url, data)
       .subscribe(
         res => {
           console.log(res);
@@ -67,13 +70,13 @@ export class ProductsService {
 
   switchDone(product): number {
     // if 0 -> 1 - 0 = 1; if 1 -> 1 - 1 = 0
-    return 1 - product.done 
+    return 1 - product[this.doneIdentifier];
   }
 
   async getIdOfProduct(product): Promise<string> {
     return new Promise<string>((resolve, reject) => {
       if (!product.id) {
-        this.http.get(this.url, { params: new HttpParams().set("productName", product.productName) } )
+        this.http.get(this.url, { params: new HttpParams().set(this.productNameIdentifier, product[this.productNameIdentifier]) } )
           .subscribe(
             res => {
               resolve(res[0].id);
@@ -88,11 +91,22 @@ export class ProductsService {
     });
   }
 
+  dataFromProduct(product) {
+    return { 
+      "id": product.id,
+      [this.productNameIdentifier]: product.productName,
+      [this.costIdentifier]: product.cost,
+      [this.doneIdentifier]: product.done
+    };
+  }
+
   deleteProduct(product): void {
-    this.costSum -= product.cost;
-    this.productsDataSource.data.splice(this.productsDataSource.data.indexOf(product), 1);
+    let data = this.dataFromProduct(product);
+
+    this.costSum -= product[this.costIdentifier];
+    this.productsDataSource.data.splice(this.productsDataSource.data.indexOf(data), 1);
     this.updateTable();
-    this.getIdOfProduct(product).then(id => {
+    this.getIdOfProduct(data).then(id => {
       this.http.delete(this.url + id)
         .subscribe(
           res => {
@@ -106,7 +120,8 @@ export class ProductsService {
   }
 
   updateDone(oldProduct): void {
-    oldProduct.done = this.switchDone(oldProduct);
+    oldProduct[this.doneIdentifier] = this.switchDone(oldProduct);
+
     this.getIdOfProduct(oldProduct).then(id => {
       this.http.put(this.url + id, oldProduct)
         .subscribe(
@@ -138,7 +153,7 @@ export class ProductsService {
   containsProduct(productName: string): boolean {
     var contains: boolean = false;
     this.productsDataSource.data.map(product => {
-      if (productName === product.productName) {
+      if (productName === product[this.productNameIdentifier]) {
         contains = true;
       }
     });

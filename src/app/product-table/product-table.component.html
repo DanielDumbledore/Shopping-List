@@ -3,15 +3,15 @@
 </div>
 
 <mat-table #productTable [dataSource]="this.productService.productsDataSource" matSort>
-  <ng-container matColumnDef="productName">
+  <ng-container matColumnDef="{{productService.productNameIdentifier}}">
     <mat-header-cell *matHeaderCellDef mat-sort-header> Product </mat-header-cell>
     <mat-cell *matCellDef="let entry"> {{entry[productService.productNameIdentifier]}} </mat-cell>
   </ng-container>
-  <ng-container matColumnDef="cost">
+  <ng-container matColumnDef="{{productService.costIdentifier}}">
     <mat-header-cell *matHeaderCellDef mat-sort-header> Cost </mat-header-cell>
     <mat-cell *matCellDef="let entry"> € {{entry[productService.costIdentifier]}} </mat-cell>
   </ng-container>
-  <ng-container matColumnDef="done">
+  <ng-container matColumnDef="{{productService.doneIdentifier}}">
     <mat-header-cell *matHeaderCellDef mat-sort-header> Done </mat-header-cell>
     <mat-cell *matCellDef="let entry">
       <mat-checkbox 

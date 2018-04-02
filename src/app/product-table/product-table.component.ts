@@ -13,7 +13,8 @@ import { Product } from '../shared/product';
 })
 export class ProductTableComponent implements OnInit {
   costSum: number = 0;
-  displayedColumns = ['productName', 'cost', 'done', 'delete'];
+  displayedColumns = [this.productService.productNameIdentifier, this.productService.costIdentifier,
+                      this.productService.doneIdentifier, 'delete'];
 
   @ViewChild(MatSort) sort: MatSort;
 
