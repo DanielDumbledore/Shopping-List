@@ -24,6 +24,13 @@ export class ProductDialogComponent implements OnInit {
     return this.productService.containsProduct(this.form.value.productName);
   }
 
+  saveOnEnter(event) {
+    // 13 is "Enter" key
+    if (event.keyCode === 13) {
+      this.save();
+    }
+  }
+
   save() {
     if (this.form.value.productName !== "" && this.form.value.cost > 0 
      && !this.productService.containsProduct(this.form.value.productName)) {

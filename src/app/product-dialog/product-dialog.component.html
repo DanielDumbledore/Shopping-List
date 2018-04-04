@@ -1,5 +1,5 @@
 <h2 mat-dialog-title>New Product</h2>
-<mat-dialog-content>
+<mat-dialog-content (keyup)="saveOnEnter($event)">
   <form [formGroup]="form">
     <mat-form-field>
       <input matInput placeholder="Product" formControlName="productName" required>
