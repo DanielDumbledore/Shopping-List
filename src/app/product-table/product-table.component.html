@@ -9,7 +9,7 @@
   </ng-container>
   <ng-container matColumnDef="{{productService.costIdentifier}}">
     <mat-header-cell *matHeaderCellDef mat-sort-header> Cost </mat-header-cell>
-    <mat-cell *matCellDef="let entry"> € {{entry[productService.costIdentifier]}} </mat-cell>
+    <mat-cell *matCellDef="let entry"> € {{entry[productService.costIdentifier].toFixed(2)}} </mat-cell>
   </ng-container>
   <ng-container matColumnDef="{{productService.doneIdentifier}}">
     <mat-header-cell *matHeaderCellDef mat-sort-header> Done </mat-header-cell>
@@ -34,5 +34,5 @@
 </mat-table>
 
 <div class="non-table-body">
-  <p>Total cost: <strong>{{this.productService.costSum}}</strong></p>
+  <p>Total cost: <strong>€ {{this.productService.costSum.toFixed(2)}}</strong></p>
 </div>
