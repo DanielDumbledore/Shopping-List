@@ -35,7 +35,7 @@ export class ProductsService {
   setDataSourceProps(): void {
     this.productsDataSource.sort = this.sort;
     this.productsDataSource.filterPredicate =
-          (data, filter: string) => data.done == parseInt(filter);
+          (data, filter: string) => data[this.doneIdentifier] == parseInt(filter);
     this.productsDataSource.filter = this.showDone ? "" : "0";
   }
 
@@ -76,6 +76,7 @@ export class ProductsService {
   }
 
   async getIdOfProduct(product): Promise<string> {
+    console.log(product);
     return new Promise<string>((resolve, reject) => {
       if (!product.id) {
         this.http.get(this.url, { params: new HttpParams().set(this.productNameIdentifier, product[this.productNameIdentifier]) } )
@@ -95,7 +96,6 @@ export class ProductsService {
 
   dataFromProduct(product) {
     return { 
-      "id": product.id,
       [this.productNameIdentifier]: product.productName,
       [this.costIdentifier]: product.cost,
       [this.doneIdentifier]: product.done
@@ -103,12 +103,11 @@ export class ProductsService {
   }
 
   deleteProduct(product): void {
-    let data = this.dataFromProduct(product);
-
     this.costSum -= product[this.costIdentifier];
-    this.productsDataSource.data.splice(this.productsDataSource.data.indexOf(product), 1);
+
+    let deletedProduct = this.productsDataSource.data.splice(this.productsDataSource.data.indexOf(product), 1)[0];
     this.updateTable();
-    this.getIdOfProduct(data).then(id => {
+    this.getIdOfProduct(deletedProduct).then(id => {
       this.http.delete(this.url + id)
         .subscribe(
           res => {
