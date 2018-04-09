@@ -1,3 +1,7 @@
+# Shopping-List
+
+Copy all this in your /src folder and add following dependencies.
+
 ## Dependencies
 
 ```
@@ -12,7 +16,7 @@ npm install --save @angular/animations
 npm install --save hammerjs
 ```
 
-## Additions (not needed if src folder is copied instead)
+## Additions (if copying app folder only)
 
 Add to styles.css
 
