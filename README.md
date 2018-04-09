@@ -8,6 +8,10 @@ npm install --save @angular/material @angular/cdk
 npm install --save @angular/animations
 ```
 
+```
+npm install --save hammerjs
+```
+
 ## Additions (not needed if src folder is copied instead)
 
 Add to styles.css
