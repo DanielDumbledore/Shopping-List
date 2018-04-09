@@ -150,4 +150,8 @@ export class ProductsService {
     });
     return contains;
   }
+
+  getFormattedCostSum(): string {
+    return Math.abs(this.costSum).toFixed(2);
+  }
 }
