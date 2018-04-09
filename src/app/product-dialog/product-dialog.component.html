@@ -10,11 +10,14 @@
   </form>
   <div *ngIf="containsTypedProduct()">
     <mat-hint>
-        Product already contained! (will not be saved)
+        Product already contained!
     </mat-hint>
   </div>
 </mat-dialog-content>
 <mat-dialog-actions>
     <button class="mat-raised-button" (click)="close()">Close</button>
-    <button class="mat-raised-button mat-primary" (click)="save()">Save</button>
+    <button class="mat-raised-button mat-primary" (click)="save()" 
+            disabled="{{containsTypedProduct() ? 'disabled' : ''}}">
+      Save
+    </button>
 </mat-dialog-actions>
