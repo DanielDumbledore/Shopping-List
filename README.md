@@ -1,4 +1,4 @@
-## Dependancies
+## Dependencies
 
 ```
 npm install --save @angular/material @angular/cdk
