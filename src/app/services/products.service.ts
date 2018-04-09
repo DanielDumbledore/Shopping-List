@@ -52,16 +52,14 @@ export class ProductsService {
   }
 
   addProduct(newProduct: Product): void {
-    this.costSum += newProduct.cost;
-
     let data = this.dataFromProduct(newProduct);
-
-    this.productsDataSource.data.push(data);
-    this.updateTable();
 
     this.http.post(this.url, data)
       .subscribe(
         res => {
+          this.productsDataSource.data.push(res);
+          this.updateTable();
+          this.costSum += newProduct.cost;
           console.log(res);
         },
         err => {
@@ -70,31 +68,27 @@ export class ProductsService {
       );
   }
 
-  switchDone(product): number {
+  switchDone(product: Product): number {
     // if 0 -> 1 - 0 = 1; if 1 -> 1 - 1 = 0
     return 1 - product[this.doneIdentifier];
   }
 
-  async getIdOfProduct(product): Promise<string> {
-    console.log(product);
+  async getIdOfProduct(productName: string): Promise<string> { 
     return new Promise<string>((resolve, reject) => {
-      if (!product.id) {
-        this.http.get(this.url, { params: new HttpParams().set(this.productNameIdentifier, product[this.productNameIdentifier]) } )
-          .subscribe(
-            res => {
-              resolve(res[0].id);
-            },
-            err => {
-              console.log("Error occured");
-            }
-          );
-      } else {
-        resolve(product.id);
-      }
+      this.http.get(this.url, { params: new HttpParams().set(this.productNameIdentifier, productName) } )
+        .subscribe(
+          res => {
+            resolve(res[0].id);
+          },
+          err => {
+            console.log("Error occured");
+          }
+        )
     });
   }
 
-  dataFromProduct(product) {
+  // needed to cast productData from database ressource to interface type
+  dataFromProduct(product: Product) {
     return { 
       [this.productNameIdentifier]: product.productName,
       [this.costIdentifier]: product.cost,
@@ -102,38 +96,36 @@ export class ProductsService {
     };
   }
 
-  deleteProduct(product): void {
-    this.costSum -= product[this.costIdentifier];
-
-    let deletedProduct = this.productsDataSource.data.splice(this.productsDataSource.data.indexOf(product), 1)[0];
-    this.updateTable();
-    this.getIdOfProduct(deletedProduct).then(id => {
-      this.http.delete(this.url + id)
-        .subscribe(
-          res => {
-            console.log(res);
-          },
-          err => {
-            console.log("Error occured");
-          }
-        );
-    })
+  deleteProduct(product: Product): void {
+    this.http.delete(this.url + product.id)
+      .subscribe(
+        res => {
+          this.costSum -= product[this.costIdentifier];
+          this.productsDataSource.data.splice(this.productsDataSource.data.indexOf(product), 1)[0];
+          this.updateTable();
+          console.log(res);
+        },
+        err => {
+          console.log("Error occured");
+        }
+      );
   }
 
   updateDone(oldProduct): void {
-    oldProduct[this.doneIdentifier] = this.switchDone(oldProduct);
+    let doneData = { // only need to send changed data
+      [this.doneIdentifier]: this.switchDone(oldProduct)
+    }
 
-    this.getIdOfProduct(oldProduct).then(id => {
-      this.http.put(this.url + id, oldProduct)
-        .subscribe(
-          res => {
-            console.log(res);
-          },
-          err => {
-            console.log("Error occured");
-          }
-        )
-    })
+    this.http.put(this.url + oldProduct.id, doneData)
+      .subscribe(
+        res => {
+          oldProduct[this.doneIdentifier] = this.switchDone(oldProduct);
+          console.log(res);
+        },
+        err => {
+          console.log("Error occured");
+        }
+      )
     
 
     if (!this.showDone) {
