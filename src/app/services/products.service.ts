@@ -120,17 +120,15 @@ export class ProductsService {
       .subscribe(
         res => {
           oldProduct[this.doneIdentifier] = this.switchDone(oldProduct);
+          if (!this.showDone) { // only need to update table filter if done should not be shown
+            this.updateTable();
+          }
           console.log(res);
         },
         err => {
           console.log("Error occured");
         }
       )
-    
-
-    if (!this.showDone) {
-      this.updateTable();
-    }
   }
 
   updateTable(): void {
