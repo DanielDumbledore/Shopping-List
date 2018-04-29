@@ -17,7 +17,7 @@ export class ProductsService {
   public showDone: boolean = true;
 
   // change variables according to your specific api
-  public url = 'http://localhost:2403/einkaufsliste/'
+  public url = 'http://localhost:3000/einkaufsliste/'
   public productNameIdentifier = 'produkt';
   public costIdentifier = 'kosten';
   public doneIdentifier = 'erledigt';
@@ -28,7 +28,10 @@ export class ProductsService {
     this.getProducts().then((data: Product[]) => {
       this.productsDataSource = new MatTableDataSource(data);
       this.setDataSourceProps();
-      data.map(product => { this.costSum += product[this.costIdentifier] });      
+      data.map(product => { 
+        if (product[this.doneIdentifier] != 1)
+          this.costSum += product[this.costIdentifier] 
+      });      
     });
   }
 
@@ -100,7 +103,8 @@ export class ProductsService {
     this.http.delete(this.url + product.id)
       .subscribe(
         res => {
-          this.costSum -= product[this.costIdentifier];
+          if (product[this.doneIdentifier] != 1)
+            this.costSum -= product[this.costIdentifier];
           this.productsDataSource.data.splice(this.productsDataSource.data.indexOf(product), 1)[0];
           this.updateTable();
           console.log(res);
@@ -120,6 +124,11 @@ export class ProductsService {
       .subscribe(
         res => {
           oldProduct[this.doneIdentifier] = this.switchDone(oldProduct);
+          if (oldProduct[this.doneIdentifier] == 1) {
+            this.costSum -= oldProduct[this.costIdentifier];
+          } else {
+            this.costSum += oldProduct[this.costIdentifier];
+          }
           if (!this.showDone) { // only need to update table filter if done should not be shown
             this.updateTable();
           }
