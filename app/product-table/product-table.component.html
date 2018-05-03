@@ -1,5 +1,5 @@
 <div class="non-table-body">
-  <mat-checkbox (click)="this.productService.toggleFilter()" checked="{{this.productService.showDone ? '' : 'check'}}">Hide Done?</mat-checkbox>
+  <mat-checkbox id="hide-done-box" (click)="this.productService.toggleFilter()" checked="{{this.productService.showDone ? '' : 'check'}}">Hide Done?</mat-checkbox>
 </div>
 
 <mat-table #productTable [dataSource]="this.productService.productsDataSource" matSort>

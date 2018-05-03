@@ -12,7 +12,7 @@ import 'rxjs/add/operator/toPromise';
 @Injectable()
 export class ProductsService {
   public productsDataSource;
-  public costSum: number = 0;
+  public costSum: number;
 
   public showDone: boolean = true;
 
@@ -25,9 +25,14 @@ export class ProductsService {
   public sort: MatSort;
 
   constructor(private http: HttpClient) { 
+    this.reload();
+  }
+
+  reload(): void {
     this.getProducts().then((data: Product[]) => {
       this.productsDataSource = new MatTableDataSource(data);
       this.setDataSourceProps();
+      this.costSum = 0
       data.map(product => { 
         if (product[this.doneIdentifier] != 1)
           this.costSum += product[this.costIdentifier] 

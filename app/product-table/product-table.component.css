@@ -2,7 +2,11 @@ mat-cell {
     overflow: visible;
 }
 
+#refresh-icon {
+  color: gray;
+  margin-right: 50px;
+}
+
 .non-table-body {
-    margin: 0 12px;
-    margin-top: 10px;
+    margin: 10px 12px 0 12px;
 }
