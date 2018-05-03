@@ -13,7 +13,7 @@ export class ProductInputComponent implements OnInit {
 
   constructor(
     private dialog: MatDialog,
-    private productService: ProductsService) { }
+    public productService: ProductsService) { }
 
   openProductDialog() {
     const dialogConfig = new MatDialogConfig();
