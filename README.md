@@ -1,4 +1,6 @@
-## Dependancies
+## Dependencies
+
+### Angular App
 
 ```
 npm install --save @angular/material @angular/cdk
@@ -10,6 +12,24 @@ npm install --save @angular/animations
 
 ```
 npm install --save hammerjs
+```
+
+### Server
+
+```
+npm install --save express
+```
+
+```
+npm install --save body-parser
+```
+
+```
+npm install --save cors
+```
+
+```
+npm install --save sqlite3
 ```
 
 ## Additions (not needed if src folder is copied instead)
