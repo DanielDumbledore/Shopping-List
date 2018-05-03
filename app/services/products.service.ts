@@ -17,7 +17,7 @@ export class ProductsService {
   public showDone: boolean = true;
 
   // change variables according to your specific api
-  public url = 'http://localhost:3000/einkaufsliste/'
+  public url = 'http://danieldev.io:3000/einkaufsliste/'
   public productNameIdentifier = 'produkt';
   public costIdentifier = 'kosten';
   public doneIdentifier = 'erledigt';
