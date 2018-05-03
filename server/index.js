@@ -115,7 +115,7 @@ function setup_routes() {
             throw err;
           }
 
-          db.run('UPDATE shopping_list SET {0}=? WHERE {2}=?'
+          db.run('UPDATE shopping_list SET {0}=? WHERE {1}=?'
             .format(DONE_IDENTIFIER, ID_IDENTIFIER), newDone, productId,
             (err) => {
               if (err) {
