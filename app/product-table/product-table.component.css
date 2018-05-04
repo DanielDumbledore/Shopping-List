@@ -1,6 +1,7 @@
 mat-cell {
+  margin-right: 5px;
   overflow: visible;
-  word-break: break-all;
+  word-break: break-word;
 }
 
 #refresh-icon {
