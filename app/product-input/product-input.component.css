@@ -9,28 +9,28 @@ mat-form-field {
 } 
 
 #add-note {
-    position: absolute;
+    position: fixed;
     bottom: 32px;
     right: 32px;
 }
 
 #refresh-table-button {
   background-color: #7f8082;
-  position: absolute;
+  position: fixed;
   bottom: 32px;
   right: 94px;
 }
 
 @media only screen and (min-width: 992px) {
     #add-note {
-        position: absolute;
+        position: fixed;
         bottom: 48px;
         right: 48px;
     }
 
     #refresh-table-button {
       background-color: #7f8082;
-      position: absolute;
+      position: fixed;
       bottom: 48px;
       right: 110px;
     }
