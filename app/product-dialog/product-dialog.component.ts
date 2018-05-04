@@ -19,7 +19,7 @@ export class ProductDialogComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<ProductDialogComponent>,
-    private productService: ProductsService) { 
+    private productService: ProductsService) {
   }
 
   containsTypedProduct(): boolean {
@@ -32,8 +32,8 @@ export class ProductDialogComponent implements OnInit {
       this.errorMessage = "Product already contained";
 
       return true;
-    } else if (this.form.value.cost != undefined 
-      && (Number(this.form.value.cost) < 0.01 || Number(this.form.value.cost) > 1000000000000)) {
+    } else if (this.form.value.cost != undefined &&
+      (Number(this.form.value.cost) < 0.01 || Number(this.form.value.cost) > 1000000000000)) {
       this.errorMessage = "Cost incorrect";
 
       return true;
@@ -43,8 +43,8 @@ export class ProductDialogComponent implements OnInit {
   }
 
   inputIncorrect(): boolean {
-    return this.containsTypedProduct() || Number(this.form.value.cost) < 0.01 
-    || Number(this.form.value.cost) > 1000000000000;
+    return this.form.value.productName == undefined || this.containsTypedProduct() ||
+      Number(this.form.value.cost) < 0.01 || Number(this.form.value.cost) > 1000000000000;
   }
 
   saveOnEnter(event) {
@@ -55,14 +55,14 @@ export class ProductDialogComponent implements OnInit {
   }
 
   save() {
-    if (this.form.value.productName !== "" && this.form.value.cost > 0.01 && this.form.value.cost < 1000000000000 
-     && !this.productService.containsProduct(this.form.value.productName)) {
+    if (this.form.value.productName !== "" && this.form.value.cost > 0.01 && this.form.value.cost < 1000000000000 &&
+      !this.productService.containsProduct(this.form.value.productName)) {
       this.dialogRef.close(this.form.value);
     }
   }
 
   close() {
-      this.dialogRef.close();
+    this.dialogRef.close();
   }
 
   ngOnInit() {
