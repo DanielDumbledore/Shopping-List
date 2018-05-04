@@ -1,5 +1,6 @@
 mat-cell {
-    overflow: visible;
+  overflow: visible;
+  word-break: break-all;
 }
 
 #refresh-icon {
@@ -8,5 +9,5 @@ mat-cell {
 }
 
 .non-table-body {
-    margin: 10px 12px 0 12px;
+  margin: 10px 12px 0 12px;
 }
