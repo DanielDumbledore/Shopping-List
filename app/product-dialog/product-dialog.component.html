@@ -5,7 +5,7 @@
       <input matInput placeholder="Product" formControlName="productName" required>
     </mat-form-field>
     <mat-form-field>
-      <input matInput type="number" placeholder="Cost" formControlName="cost" required>
+      <input matInput min="0.01" max="1000000000000" type="number" placeholder="Cost" formControlName="cost" required>
     </mat-form-field>
   </form>
   <div *ngIf="containsTypedProduct()">
