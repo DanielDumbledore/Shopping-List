@@ -5,19 +5,19 @@
       <input matInput placeholder="Product" formControlName="productName" required>
     </mat-form-field>
     <mat-form-field>
-      <input matInput min="0.01" max="1000000000000" type="number" placeholder="Cost" formControlName="cost" required>
+      <input matInput type="number" placeholder="Cost" formControlName="cost" required>
     </mat-form-field>
   </form>
-  <div *ngIf="containsTypedProduct()">
+  <div *ngIf="showError()">
     <mat-hint>
-        Product already contained!
+        {{errorMessage}}
     </mat-hint>
   </div>
 </mat-dialog-content>
 <mat-dialog-actions>
     <button class="mat-raised-button" (click)="close()">Close</button>
     <button class="mat-raised-button mat-primary" (click)="save()" 
-            disabled="{{containsTypedProduct() ? 'disabled' : ''}}">
+            disabled="{{inputIncorrect() ? 'disabled' : ''}}">
       Save
     </button>
 </mat-dialog-actions>

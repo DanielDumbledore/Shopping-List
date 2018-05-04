@@ -14,6 +14,8 @@ export class ProductDialogComponent implements OnInit {
   productName: string;
   cost: number;
 
+  errorMessage: string;
+
   constructor(
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<ProductDialogComponent>,
@@ -24,6 +26,27 @@ export class ProductDialogComponent implements OnInit {
     return this.productService.containsProduct(this.form.value.productName);
   }
 
+
+  showError(): boolean {
+    if (this.productService.containsProduct(this.form.value.productName)) {
+      this.errorMessage = "Product already contained";
+
+      return true;
+    } else if (this.form.value.cost != undefined 
+      && (Number(this.form.value.cost) < 0.01 || Number(this.form.value.cost) > 1000000000000)) {
+      this.errorMessage = "Cost incorrect";
+
+      return true;
+    }
+
+    return false;
+  }
+
+  inputIncorrect(): boolean {
+    return this.containsTypedProduct() || Number(this.form.value.cost) < 0.01 
+    || Number(this.form.value.cost) > 1000000000000;
+  }
+
   saveOnEnter(event) {
     // 13 is "Enter" key
     if (event.keyCode === 13) {
@@ -32,7 +55,7 @@ export class ProductDialogComponent implements OnInit {
   }
 
   save() {
-    if (this.form.value.productName !== "" && this.form.value.cost > 0 
+    if (this.form.value.productName !== "" && this.form.value.cost > 0.01 && this.form.value.cost < 1000000000000 
      && !this.productService.containsProduct(this.form.value.productName)) {
       this.dialogRef.close(this.form.value);
     }
