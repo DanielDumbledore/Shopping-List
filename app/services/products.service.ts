@@ -68,7 +68,6 @@ export class ProductsService {
           this.productsDataSource.data.push(res);
           this.updateTable();
           this.costSum += newProduct.cost;
-          console.log(res);
         },
         err => {
           console.log("Error occured");
@@ -112,7 +111,6 @@ export class ProductsService {
             this.costSum -= product[this.costIdentifier];
           this.productsDataSource.data.splice(this.productsDataSource.data.indexOf(product), 1)[0];
           this.updateTable();
-          console.log(res);
         },
         err => {
           console.log("Error occured");
@@ -137,7 +135,6 @@ export class ProductsService {
           if (!this.showDone) { // only need to update table filter if done should not be shown
             this.updateTable();
           }
-          console.log(res);
         },
         err => {
           console.log("Error occured");
