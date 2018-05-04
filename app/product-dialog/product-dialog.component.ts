@@ -43,7 +43,7 @@ export class ProductDialogComponent implements OnInit {
   }
 
   inputIncorrect(): boolean {
-    return this.form.value.productName == undefined || this.containsTypedProduct() ||
+    return this.form.value.productName == undefined || this.form.value.productName == "" || this.containsTypedProduct() || 
       Number(this.form.value.cost) < 0.01 || Number(this.form.value.cost) > 1000000000000;
   }
 
@@ -55,8 +55,7 @@ export class ProductDialogComponent implements OnInit {
   }
 
   save() {
-    if (this.form.value.productName !== "" && this.form.value.cost > 0.01 && this.form.value.cost < 1000000000000 &&
-      !this.productService.containsProduct(this.form.value.productName)) {
+    if (!(this.inputIncorrect())) {
       this.dialogRef.close(this.form.value);
     }
   }
