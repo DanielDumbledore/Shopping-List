@@ -52,16 +52,13 @@ function setup_routes() {
   app.get(URL, (req, res) => {
     try {
       db.all('SELECT * FROM shopping_list', (err, rows) => {
-        if (err) {
+        if (err)
           throw err;
-        }
 
         res.send(rows);
       });
     } catch (err) {
-      res.status(500).send({
-        error: err
-      });
+      send_error_response(res, err);
     }
   });
 
@@ -88,9 +85,7 @@ function setup_routes() {
             });
         });
     } catch (err) {
-      res.status(500).send({
-        error: err
-      });
+      send_error_response(res, err);
     }
   });
 
@@ -111,16 +106,14 @@ function setup_routes() {
 
       db.each('SELECT * FROM shopping_list WHERE {0}=?'.format(ID_IDENTIFIER), productId,
         (err, row) => {
-          if (err) {
+          if (err)
             throw err;
-          }
 
           db.run('UPDATE shopping_list SET {0}=? WHERE {1}=?'
             .format(DONE_IDENTIFIER, ID_IDENTIFIER), newDone, productId,
             (err) => {
-              if (err) {
+              if (err)
                 throw err;
-              }
 
               row[DONE_IDENTIFIER] = newDone;
 
@@ -133,16 +126,13 @@ function setup_routes() {
             });
         });
     } catch (err) {
-      res.status(500).send({
-        error: err
-      });
+      send_error_response(res, err);
     }
   });
 
   app.post(URL, (req, res) => {
     try {
-      if (req.body[PRODUCT_IDENTIFIER] === undefined || req.body[COST_IDENTIFIER] === undefined ||
-        req.body[DONE_IDENTIFIER] === undefined) {
+      if (!body_correct(req.body)) {
         throw 'Body incorrect! Must be: {{0}: <productName>, {1}: <cost>, {2}: <0|1>}'
           .format(PRODUCT_IDENTIFIER, COST_IDENTIFIER, DONE_IDENTIFIER);
       }
@@ -159,10 +149,20 @@ function setup_routes() {
           });
         });
     } catch (err) {
-      res.status(500).send({
-        error: err
-      });
+      send_error_response(res, err);
     }
+  });
+}
+
+function body_correct(body) {
+  return (body[PRODUCT_IDENTIFIER] !== undefined || body[COST_IDENTIFIER] !== undefined || body[DONE_IDENTIFIER] !== undefined) &&
+    body[PRODUCT_IDENTIFIER] !== "" && !isNaN(body[COST_IDENTIFIER]) && [0, 1].includes(Number(body[DONE_IDENTIFIER]) &&
+      Number(body[COST_IDENTIFIER]) >= 0.01 && body[COST_IDENTIFIER] <= 1000000000000);
+}
+
+function send_error_response(res, err) {
+  res.status(500).send({
+    error: err
   });
 }
 
