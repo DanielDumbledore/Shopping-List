@@ -155,13 +155,13 @@ function setup_routes() {
 }
 
 function body_correct(body) {
-  return (body[PRODUCT_IDENTIFIER] != undefined || body[COST_IDENTIFIER] != undefined || body[DONE_IDENTIFIER] != undefined) &&
+  return body[PRODUCT_IDENTIFIER] != null && body[COST_IDENTIFIER] != null && body[DONE_IDENTIFIER] != null &&
     body[PRODUCT_IDENTIFIER] !== "" && !isNaN(body[COST_IDENTIFIER]) && [0, 1].includes(Number(body[DONE_IDENTIFIER]) &&
       Number(body[COST_IDENTIFIER]) >= 0.01 && body[COST_IDENTIFIER] <= 1000000000000);
 }
 
 function send_error_response(res, err) {
-  res.status(500).send({
+  res.status(400).send({
     error: err
   });
 }
