@@ -8,25 +8,20 @@
     <mat-cell *matCellDef="let entry"> {{entry[productService.productNameIdentifier]}} </mat-cell>
   </ng-container>
   <ng-container matColumnDef="{{productService.costIdentifier}}">
-    <mat-header-cell *matHeaderCellDef mat-sort-header> Cost </mat-header-cell>
-    <mat-cell *matCellDef="let entry"> € {{entry[productService.costIdentifier].toFixed(2)}} </mat-cell>
+    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'cost-cell'"> Cost </mat-header-cell>
+    <mat-cell *matCellDef="let entry" [ngClass]="'cost-cell'"> € {{entry[productService.costIdentifier].toFixed(2)}} </mat-cell>
   </ng-container>
   <ng-container matColumnDef="{{productService.doneIdentifier}}">
-    <mat-header-cell *matHeaderCellDef mat-sort-header> Done </mat-header-cell>
-    <mat-cell *matCellDef="let entry">
+    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'icon-cell'"> Done </mat-header-cell>
+    <mat-cell *matCellDef="let entry" [ngClass]="'icon-cell'">
       <mat-checkbox 
         (click)="this.productService.updateDone(entry)" 
         checked="{{entry[productService.doneIdentifier] == 1 ? 'check' : ''}}">
       </mat-checkbox>
+      <button class="accent" id="delete-button" (click)="this.productService.deleteProduct(entry)" mat-icon-button>
+        <mat-icon aria-label="Delete Icon">delete</mat-icon>
+      </button>
     </mat-cell>
-  </ng-container>
-  <ng-container matColumnDef="delete">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> Delete </mat-header-cell>
-      <mat-cell *matCellDef="let entry">
-        <button class="accent" (click)="this.productService.deleteProduct(entry)" mat-icon-button	>
-          <mat-icon aria-label="Delete Icon">delete</mat-icon>
-        </button>
-      </mat-cell>
   </ng-container>
 
   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

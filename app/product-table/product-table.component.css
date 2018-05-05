@@ -8,10 +8,28 @@ mat-cell:last-child, mat-footer-cell:last-child, mat-header-cell:last-child {
   padding-right: 0
 }
 
+.cost-cell {
+  max-width: 300px;
+}
+
+.icon-cell {
+  max-width: 120px;
+}
+
 .non-table-body {
   margin: 10px 12px 0 12px;
 }
 
 #delete-button {
   margin-left: 5px;
+}
+
+@media only screen and (max-width: 600px) {
+  .mat-header-cell {
+    font-size: 14px;
+  }
+
+  .mat-cell {
+    font-size: 15px;
+  }
 }
