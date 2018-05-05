@@ -1,12 +1,10 @@
 import { Injectable, ViewChild } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
-import { MatTableDataSource, MatSort, MatTab} from '@angular/material';
+import { MatTableDataSource, MatSort, MatTab } from '@angular/material';
 
 import { Product } from '../shared/product';
-
-import 'rxjs/add/operator/toPromise';
 
 
 @Injectable()
