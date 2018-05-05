@@ -4,11 +4,14 @@ mat-cell {
   word-break: break-word;
 }
 
-#refresh-icon {
-  color: gray;
-  margin-right: 50px;
+mat-cell:last-child, mat-footer-cell:last-child, mat-header-cell:last-child {
+  padding-right: 0
 }
 
 .non-table-body {
   margin: 10px 12px 0 12px;
+}
+
+#delete-button {
+  margin-left: 5px;
 }
